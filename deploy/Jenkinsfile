@@ -5,7 +5,7 @@ pipeline {
     stage('Git fatch') {
       steps {
         echo 'Git fatch'
-        git url: 'https://github.com/sudongst/spring-petclinic.git/'
+        git url: 'https://github.com/sudongst/spring-petclinic.git/',
           branch: 'main', credentialsId: 'gitCredential'
       }
     }
