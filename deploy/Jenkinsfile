@@ -35,7 +35,8 @@ pipeline {
         echo 'Docker Image'
         dir("${env.WORKSPACE}") {
         sh 'docker build -t ${ECR_DOCKER_IMAGE}:${ECR_DOCKER_TAG} .'
-      }
+            }
+        }
     }
     
     stage('Image Push') {
@@ -60,4 +61,4 @@ pipeline {
     }
   }
 }
-}
+
