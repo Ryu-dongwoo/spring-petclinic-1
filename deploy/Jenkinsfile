@@ -57,11 +57,11 @@ pipeline {
       }
     }
     
-stage('Codedeploy Workload') {
+      stage('Codedeploy Workload') {
         steps {
           echo 'Codedeploy Workload'
           script{
-            sh 'aws deploy create-deployment --application-name ${APP_NAME} --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name ${DEPLOYMENT_GROUP} --s3-location bucket=${S3_BUCKET},bundleType=zip,key=my-app.zip'
+            sh 'aws deploy create-deployment --application-name ${APP_NAME} --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name ${DEPLOYMENT_GROUP} --revision revisionType=GitHub,repository=${REPOSITORY_NAME},commitId=${GIT_COMMIT}'
           }
         }
     }
