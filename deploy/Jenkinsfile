@@ -64,7 +64,7 @@ pipeline {
         steps {
           echo 'Codedeploy Workload'
           script{
-            sh "aws deploy create-deployment --application-name ${params.APPLICATION_NAME} --deployment-group-name ${params.DEPLOYMENT_GROUP} --revision revisionType=GitHub,repository=${params.REPOSITORY_NAME},commitId=${env.GIT_COMMIT}"
+            sh "aws deploy create-deployment --application-name ${params.APPLICATION_NAME} --deployment-group-name ${params.DEPLOYMENT_GROUP} --revision revisionType=GitHub,repository=${REPOSITORY_NAME},commitId=${GIT_COMMIT}"
           }
         }
     }
