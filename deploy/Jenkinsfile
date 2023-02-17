@@ -13,6 +13,9 @@ pipeline {
     ECR_REPOSITORY = "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com"
     ECR_DOCKER_IMAGE = "${ECR_REPOSITORY}/${DOCKER_IMAGE_NAME}"
     ECR_DOCKER_TAG = "${DOCKER_TAG}"
+    APP_NAME = 'aws2'
+    DEPLOYMENT_GROUP = 'project02-code-deploy-group'
+    S3_BUCKET = 'project02-tfbackend-s3'
     }
   
   stages {
@@ -54,10 +57,13 @@ pipeline {
       }
     }
     
-    stage('Codedeploy Workload') {
-      steps {
-        echo 'Codedeploy Workload'
-      }
+stage('Codedeploy Workload') {
+        steps {
+          echo 'Codedeploy Workload'
+          script{
+            sh 'aws deploy create-deployment --application-name ${APP_NAME} --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name ${DEPLOYMENT_GROUP} --s3-location bucket=${S3_BUCKET},bundleType=jar,key=my-app.jar'
+          }
+        }
     }
   }
 }
