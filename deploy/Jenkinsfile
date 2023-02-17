@@ -15,7 +15,8 @@ pipeline {
     ECR_DOCKER_TAG = "${DOCKER_TAG}"
     APP_NAME = 'aws2'
     DEPLOYMENT_GROUP = 'project02-code-deploy-group'
-    S3_BUCKET = 'project02-tfbackend-s3'
+    REPOSITORY_NAME = 'https://github.com/sudongst/spring-petclinic.git/'
+    GIT_COMMIT= 'https://github.com/sudongst/spring-petclinic/blob/main/deploy/appspec.yml'
     }
   
   stages {
