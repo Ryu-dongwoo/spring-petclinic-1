@@ -4,6 +4,12 @@ pipeline {
     maven "M3"
     jdk "jdk11"
   }
+      parameters{
+          string(name: 'APPLICATION_NAME', defaultValue: 'aws2', description: 'Name of the AWS CodeDeploy application')
+          string(name: 'DEPLOYMENT_GROUP', defaultValue: 'project02-code-deploy-group', description: 'Name of the AWS CodeDeploy deployment group')
+          string(name: 'REPOSITORY_NAME', defaultValue: 'https://github.com/sudongst/spring-petclinic.git/', description: 'Name of the GitHub repository')
+          string(name: 'BRANCH_NAME', defaultValue: 'https://github.com/sudongst/spring-petclinic/blob/main/deploy/appspec.yml', description: 'Name of the Git branch')
+      }
   environment {
     AWS_CREDENTIAL_NAME = "awsEcrcredential"
     AWS_ACCOUNT_ID = "257307634175"
@@ -13,11 +19,7 @@ pipeline {
     ECR_REPOSITORY = "${AWS_ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com"
     ECR_DOCKER_IMAGE = "${ECR_REPOSITORY}/${DOCKER_IMAGE_NAME}"
     ECR_DOCKER_TAG = "${DOCKER_TAG}"
-    APP_NAME = 'aws2'
-    DEPLOYMENT_GROUP = 'project02-code-deploy-group'
-    REPOSITORY_NAME = 'https://github.com/sudongst/spring-petclinic.git/'
-    GIT_COMMIT= 'https://github.com/sudongst/spring-petclinic/blob/main/deploy/appspec.yml'
-    }
+  }
   
   stages {
     stage('Git fatch') {
@@ -62,7 +64,7 @@ pipeline {
         steps {
           echo 'Codedeploy Workload'
           script{
-            sh 'aws deploy create-deployment --application-name ${APP_NAME} --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name ${DEPLOYMENT_GROUP} --revision revisionType=GitHub,repository=${REPOSITORY_NAME},commitId=${GIT_COMMIT}'
+            sh "aws deploy create-deployment --application-name ${params.APPLICATION_NAME} --deployment-group-name ${params.DEPLOYMENT_GROUP} --revision revisionType=GitHub,repository=${params.REPOSITORY_NAME},commitId=${env.GIT_COMMIT}"
           }
         }
     }
